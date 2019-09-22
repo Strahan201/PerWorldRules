@@ -1,0 +1,8 @@
+name: PerWorldRules
+author: Strahan
+main: com.sylvcraft.PerWorldRules
+version: 1.0
+description: Lets you do a /rules command with different contents per world
+commands:
+  rules:
+    description: Shows the rules

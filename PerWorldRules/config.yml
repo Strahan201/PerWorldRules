@@ -1,0 +1,11 @@
+messages:
+  access-denied: '&cAccess denied!'
+  no-console: 'You cannot use the rules command without arguments at the console.'
+  invalid-index: '&cThat index value is not a valid number!'
+  rules-set: '&eRules updated!'
+  no-rules: '&eRules have not been setup yet for this world!'
+  help-append: '&e/rules append &7(world) (text) - &6Adds a line to the rules'
+  help-insert: '&e/rules insert &7(world) (index) (text) - &6Inserts a line at index in rules'
+  help-set: '&e/rules set &7(world) (index) (text) - &6Sets the line at index in rules'
+  help-del: '&e/rules del &7(world) (index) - &6Deletes a line at index in rules'
+  help-show: '&e/rules show &7(world) - &6Shows world rules with index values'
