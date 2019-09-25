@@ -1,7 +1,7 @@
 messages:
   access-denied: '&cAccess denied!'
   no-console: 'You cannot use the rules command without arguments at the console.'
-  invalid-index: '&cThat index value is not a valid number!'
+  invalid-index: '&cThat index value is not valid!'
   rules-set: '&eRules updated!'
   no-rules: '&eRules have not been setup yet for this world!'
   help-append: '&e/rules append &7(world) (text) - &6Adds a line to the rules'

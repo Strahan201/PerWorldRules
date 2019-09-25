@@ -25,6 +25,15 @@ public class Rules implements TabExecutor {
 		if (!sender.hasPermission("perworldrules.admin")) return tabs;
 		if (args.length == 0) return tabs;
 
+		if (args.length == 1) {
+			tabs.add("insert");
+			tabs.add("show");
+			tabs.add("append");
+			tabs.add("del");
+			tabs.add("set");
+			return tabs;
+		}
+		
 		switch (args[0].toLowerCase()) {
 		case "insert":
 		case "show":
@@ -32,6 +41,8 @@ public class Rules implements TabExecutor {
 		case "del":
 		case "set":
 			if (args.length == 2) {
+				tabs.add("_global_");
+				tabs.add("_default_");
 				for (World w : plugin.getServer().getWorlds()) {
 					tabs.add(w.getName());
 				}
@@ -86,7 +97,7 @@ public class Rules implements TabExecutor {
 			break;
 			
 		case "show":
-			showRules(sender, args);
+			showWorldRules(sender, args);
 			return true;
 			
 		default:
@@ -102,18 +113,6 @@ public class Rules implements TabExecutor {
 		plugin.saveConfig();
 		plugin.msg("rules-set", sender);
 		return true;
-	}
-	
-	void showRules(Player p) {
-		List<String> rules = plugin.getConfig().getStringList("rules." + p.getWorld().getName());
-		if (rules.size() == 0) {
-			rules = plugin.getConfig().getStringList("rules.*");
-			if (rules.size() == 0) {
-				plugin.msg("no-rules", p);
-				return;
-			}
-		}
-		for (String rule : rules) p.sendMessage(ChatColor.translateAlternateColorCodes('&', rule));
 	}
 	
 	int getIndex(String indexInput) {
@@ -151,7 +150,7 @@ public class Rules implements TabExecutor {
 
 		String world = args[1];
 		List<String> rules = plugin.getConfig().getStringList("rules." + world);
-		if (index-1 < 0 || index-1 > rules.size()) {
+		if (index-1 < 0 || index > rules.size()) {
 			plugin.msg("invalid-index", sender);
 			return null;
 		}
@@ -175,7 +174,7 @@ public class Rules implements TabExecutor {
 
 		String world = args[1];
 		List<String> rules = plugin.getConfig().getStringList("rules." + world);
-		if (index-1 < 0 || index-1 > rules.size()) {
+		if (index-1 < 0 || index > rules.size()) {
 			plugin.msg("invalid-index", sender);
 			return null;
 		}
@@ -199,7 +198,7 @@ public class Rules implements TabExecutor {
 
 		String world = args[1];
 		List<String> rules = plugin.getConfig().getStringList("rules." + world);
-		if (index-1 < 0 || index-1 > rules.size()) {
+		if (index-1 < 0 || index > rules.size()) {
 			plugin.msg("invalid-index", sender);
 			return null;
 		}
@@ -208,7 +207,25 @@ public class Rules implements TabExecutor {
 		return rules;
 	}
 	
-	void showRules(CommandSender sender, String[] args) {
+	void showRules(Player p) {
+		List<String> rulesWorld = plugin.getConfig().getStringList("rules." + p.getWorld().getName());
+		for (String rule : rulesWorld) p.sendMessage(ChatColor.translateAlternateColorCodes('&', rule));
+		
+		List<String> rulesDefault = plugin.getConfig().getStringList("rules._default_");
+		if (rulesWorld.size() == 0) {
+			for (String rule : rulesDefault) p.sendMessage(ChatColor.translateAlternateColorCodes('&', rule));			
+		}
+		
+		List<String> rulesGlobal = plugin.getConfig().getStringList("rules._global_");
+		for (String rule : rulesGlobal) p.sendMessage(ChatColor.translateAlternateColorCodes('&', rule));
+
+		if (rulesDefault.size() + rulesWorld.size() + rulesGlobal.size() == 0) {
+			plugin.msg("no-rules", p);
+			return;
+		}
+}
+	
+	void showWorldRules(CommandSender sender, String[] args) {
 		if (args.length < 2) {
 			plugin.msg("help-show", sender);
 			return;
